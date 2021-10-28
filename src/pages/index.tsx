@@ -1,6 +1,13 @@
+import React from 'react';
+import { ScrollMenu } from 'react-horizontal-scrolling-menu';
+
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 
+import { CardCategory } from '../components/CardCategory';
+import { CardDish } from '../components/CardDish';
+import { Header } from '../components/Header';
 import styles from '../styles/pages/Home.module.scss';
 
 const Home: NextPage = () => {
@@ -12,7 +19,75 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1>Hello next</h1>
+        <Header />
+        <input className={styles.input} type="text" placeholder="Buscar" />
+        <h2 className={styles.titleCategories}>Categorias</h2>
+        <section className={styles.categories}>
+          <ScrollMenu>
+            <CardCategory />
+            <CardCategory />
+            <CardCategory />
+            <CardCategory />
+            <CardCategory />
+          </ScrollMenu>
+        </section>
+        <h2 className={styles.titleDishs}>Pratos</h2>
+        <section className={styles.dishs}>
+          <Link
+            href={{
+              pathname: '/dish/[slug]',
+              query: { slug: 'teste' },
+            }}
+          >
+            <a>
+              <CardDish
+                dish={{
+                  id: 1,
+                  name: 'Prato 15',
+                  price: 'R$ 10,00',
+                  image: 'https://picsum.photos/200/300',
+                  description: 'Prato 1',
+                }}
+              />
+            </a>
+          </Link>
+          <CardDish
+            dish={{
+              id: 1,
+              name: 'Prato 1',
+              price: 'R$ 10,00',
+              image: 'https://picsum.photos/200/300',
+              description: 'Prato 1',
+            }}
+          />
+          <CardDish
+            dish={{
+              id: 1,
+              name: 'Prato 1',
+              price: 'R$ 10,00',
+              image: 'https://picsum.photos/200/300',
+              description: 'Prato 1',
+            }}
+          />
+          <CardDish
+            dish={{
+              id: 1,
+              name: 'Prato 1',
+              price: 'R$ 10,00',
+              image: 'https://picsum.photos/200/300',
+              description: 'Prato 1',
+            }}
+          />
+          <CardDish
+            dish={{
+              id: 1,
+              name: 'Prato 1',
+              price: 'R$ 10,00',
+              image: 'https://picsum.photos/200/300',
+              description: 'Prato 1',
+            }}
+          />
+        </section>
       </main>
     </div>
   );

@@ -11,9 +11,12 @@
   "dependencies": {
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-horizontal-scrolling-menu": "^2.5.0",
+    "react-icons": "^4.3.1"
   },
   "devDependencies": {
+    "@types/brainhubeu__react-carousel": "^2.0.4",
     "@types/node": "^16.10.3",
     "@types/react": "17.0.27",
     "@typescript-eslint/eslint-plugin": "^4.33.0",

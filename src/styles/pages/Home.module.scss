@@ -1,0 +1,45 @@
+.input {
+  width: 90%;
+  height: 56px;
+  margin-top: -28px;
+  margin-left: 5%;
+  border: none;
+  background: var(--card);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background: var(--card);
+    color: #000;
+  }
+}
+
+.titleCategories {
+  margin-top: 30px;
+  margin-left: 5%;
+  color: var(--title);
+}
+
+.titleDishs {
+  margin-top: 30px;
+  margin-left: 5%;
+  color: var(--title);
+}
+
+.categories {
+  margin-top: 32px;
+  margin-left: 5%;
+}
+
+.dishs {
+  width: 90%;
+  margin-top: 32px;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
