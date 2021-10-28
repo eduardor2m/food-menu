@@ -30,7 +30,7 @@ const Home: NextPage = () => {
         await fetch(
           `${
             process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
-              ? 'https://food-menu-b3t7kcwmb-eduardor2m.vercel.app/api/products'
+              ? process.env.NEXT_PUBLIC_ADRESS
               : 'http://localhost:3000/api/products'
           }`
         )
