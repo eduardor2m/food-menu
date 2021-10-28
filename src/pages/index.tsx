@@ -27,7 +27,13 @@ const Home: NextPage = () => {
   useEffect(() => {
     async function fetchProducts() {
       const data: Product[] = await (
-        await fetch('http://localhost:3000/api/products')
+        await fetch(
+          `${
+            process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+              ? 'https://food-menu-b3t7kcwmb-eduardor2m.vercel.app/api/products'
+              : 'http://localhost:3000/api/products'
+          }`
+        )
       ).json();
       setProducts(data);
     }
