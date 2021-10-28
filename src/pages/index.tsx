@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 
 import type { NextPage } from 'next';
@@ -6,11 +6,49 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import { CardCategory } from '../components/CardCategory';
-import { CardDish } from '../components/CardDish';
+import { CardProduct } from '../components/CardProduct';
 import { Header } from '../components/Header';
 import styles from '../styles/pages/Home.module.scss';
 
+type Product = {
+  id: number;
+  category: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+};
+
 const Home: NextPage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
+  const [change, setChange] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const data: Product[] = await (
+        await fetch(
+          `${
+            process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+              ? process.env.NEXT_PUBLIC_ADRESS
+              : 'http://localhost:3000/api/products'
+          }`
+        )
+      ).json();
+      setProducts(data);
+    }
+
+    fetchProducts();
+  });
+
+  function handleCategory(categoryType: string) {
+    const productsFilter = products.filter(
+      (product) => product.category === categoryType
+    );
+    setChange(false);
+    setProductsFiltered(productsFilter);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -24,69 +62,77 @@ const Home: NextPage = () => {
         <h2 className={styles.titleCategories}>Categorias</h2>
         <section className={styles.categories}>
           <ScrollMenu>
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
+            <button
+              className={styles.buttonCategory}
+              onClick={() => handleCategory('carne')}
+            >
+              <CardCategory type="Carne" />
+            </button>
+            <button
+              className={styles.buttonCategory}
+              onClick={() => handleCategory('pizza')}
+            >
+              <CardCategory type="Pizza" />
+            </button>
+            <button
+              className={styles.buttonCategory}
+              onClick={() => handleCategory('massa')}
+            >
+              <CardCategory type="Massa" />
+            </button>
+            <button
+              className={styles.buttonCategory}
+              onClick={() => handleCategory('vinho')}
+            >
+              <CardCategory type="Vinho" />
+            </button>
           </ScrollMenu>
         </section>
         <h2 className={styles.titleDishs}>Pratos</h2>
         <section className={styles.dishs}>
-          <Link
-            href={{
-              pathname: '/dish/[slug]',
-              query: { slug: 'teste' },
-            }}
-          >
-            <a>
-              <CardDish
-                dish={{
-                  id: 1,
-                  name: 'Prato 15',
-                  price: 'R$ 10,00',
-                  image: 'https://picsum.photos/200/300',
-                  description: 'Prato 1',
-                }}
-              />
-            </a>
-          </Link>
-          <CardDish
-            dish={{
-              id: 1,
-              name: 'Prato 1',
-              price: 'R$ 10,00',
-              image: 'https://picsum.photos/200/300',
-              description: 'Prato 1',
-            }}
-          />
-          <CardDish
-            dish={{
-              id: 1,
-              name: 'Prato 1',
-              price: 'R$ 10,00',
-              image: 'https://picsum.photos/200/300',
-              description: 'Prato 1',
-            }}
-          />
-          <CardDish
-            dish={{
-              id: 1,
-              name: 'Prato 1',
-              price: 'R$ 10,00',
-              image: 'https://picsum.photos/200/300',
-              description: 'Prato 1',
-            }}
-          />
-          <CardDish
-            dish={{
-              id: 1,
-              name: 'Prato 1',
-              price: 'R$ 10,00',
-              image: 'https://picsum.photos/200/300',
-              description: 'Prato 1',
-            }}
-          />
+          {change
+            ? products.map((item) => (
+                <Link
+                  key={item.id}
+                  href={{
+                    pathname: '/products/[slug]',
+                    query: { slug: item.id },
+                  }}
+                >
+                  <a>
+                    <CardProduct
+                      dish={{
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        image: item.image,
+                        description: item.description,
+                      }}
+                    />
+                  </a>
+                </Link>
+              ))
+            : productsFiltered.map((item) => (
+                <Link
+                  key={item.id}
+                  href={{
+                    pathname: '/products/[slug]',
+                    query: { slug: item.id },
+                  }}
+                >
+                  <a>
+                    <CardProduct
+                      dish={{
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        image: item.image,
+                        description: item.description,
+                      }}
+                    />
+                  </a>
+                </Link>
+              ))}
         </section>
       </main>
     </div>
