@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { BiTrash } from 'react-icons/bi';
 
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 
 import { CardProduct } from '../components/CardProduct';
 import { HeaderFavorites } from '../components/HeaderFavorites';
@@ -60,27 +62,29 @@ const Favorites: NextPage = () => {
         <section className={styles.dishs}>
           {products.length > 0 ? (
             products.map((item) => (
-              // <Link
-              //   key={item.id}
-              //   href={{
-              //     pathname: '/products/[slug]',
-              //     query: { slug: item.id },
-              //   }}
-              // >
-              //   <a>
-              <CardProduct
-                key={item.id}
-                dish={{
-                  id: item.id,
-                  name: item.name,
-                  price: item.price,
-                  image: item.image,
-                  description: item.description,
-                  handleOnClick: () => handleDelete(item.id),
-                }}
-              />
-              //   </a>
-              // </Link>
+              <section className={styles.wrapperProduct} key={item.id}>
+                <Link
+                  href={{
+                    pathname: '/products/[slug]',
+                    query: { slug: item.id },
+                  }}
+                >
+                  <a>
+                    <CardProduct
+                      dish={{
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        image: item.image,
+                        description: item.description,
+                      }}
+                    />
+                  </a>
+                </Link>
+                <button onClick={() => handleDelete(item.id)}>
+                  <BiTrash size={24} color="#c72828" />
+                </button>
+              </section>
             ))
           ) : (
             <p>Nenhum prato favorito</p>

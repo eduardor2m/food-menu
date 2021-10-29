@@ -18,6 +18,18 @@
   }
 }
 
+.wrapperProduct {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+
 .titleCategories {
   margin-top: 30px;
   margin-left: 5%;
