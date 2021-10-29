@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AiOutlineWhatsApp } from 'react-icons/ai';
 
 import { useRouter } from 'next/router';
 
@@ -16,6 +17,8 @@ type Product = {
 
 export default function Dish() {
   const [product, setProduct] = useState<Product>({} as Product);
+  const [quantity, setQuantity] = useState(1);
+  const [price, setPrice] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +34,30 @@ export default function Dish() {
 
     fetchData();
   });
+
+  useEffect(() => {
+    setPrice(product.price * quantity);
+  }, [product, quantity]);
+
+  function handleChangeQuantityNegative() {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+      setPrice(quantity * product.price);
+    } else {
+      return alert('Quantidade insuficiente');
+    }
+  }
+
+  function handleChangeQuantityPositive() {
+    setQuantity(quantity + 1);
+    setPrice(quantity * product.price);
+  }
+
+  function redirectWhatsapp() {
+    window.open(
+      `https://api.whatsapp.com/send?phone=5582998394523&text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20pedido!%20Nome%3A%20${product.name}`
+    );
+  }
 
   return (
     <div>
@@ -48,6 +75,32 @@ export default function Dish() {
             </p>
           </section>
         </section>
+        <section>
+          <h1 className={styles.titleQuantity}>Quantidade</h1>
+
+          <section className={styles.quantity}>
+            <section className={styles.quantityText}>
+              <p>{product.name}</p>
+            </section>
+            <section className={styles.quantityButtons}>
+              <button onClick={() => handleChangeQuantityNegative()}>-</button>
+              <p>{quantity}</p>
+              <button onClick={() => handleChangeQuantityPositive()}>+</button>
+            </section>
+          </section>
+        </section>
+        <section className={styles.pedido}>
+          <h1>Total do pedido</h1>
+          <p>
+            <span>R$</span> {price}
+          </p>
+        </section>
+        <button className={styles.productActions} onClick={redirectWhatsapp}>
+          <section className={styles.text}>Pedir no WhatsApp</section>
+          <section>
+            <AiOutlineWhatsApp color="#fff" size={24} />
+          </section>
+        </button>
       </section>
     </div>
   );
