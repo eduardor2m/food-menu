@@ -1,14 +1,14 @@
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import { MdOutlineFavoriteBorder } from 'react-icons/md';
+import { BiTrash } from 'react-icons/bi';
 
 import styles from '../styles/components/HeaderProduct.module.scss';
 
 interface Props {
-  category: string;
+  title: string;
   handleOnClick: () => void;
 }
 
-export const HeaderProduct: React.FC<Props> = ({ category, handleOnClick }) => {
+export const HeaderFavorites: React.FC<Props> = ({ title, handleOnClick }) => {
   function handleBack() {
     window.history.back();
   }
@@ -18,9 +18,9 @@ export const HeaderProduct: React.FC<Props> = ({ category, handleOnClick }) => {
         <button onClick={handleBack}>
           <AiOutlineArrowLeft className={styles.icon} />
         </button>
-        <h1 className={styles.title}>Prato - {category}</h1>
+        <h1 className={styles.title}>{title}</h1>
         <button onClick={handleOnClick}>
-          <MdOutlineFavoriteBorder className={styles.icon} />
+          <BiTrash className={styles.icon} />
         </button>
       </div>
     </div>

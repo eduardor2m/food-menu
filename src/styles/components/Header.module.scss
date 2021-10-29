@@ -18,6 +18,11 @@
     height: 40px;
   }
 
+  button {
+    border: none;
+    background-color: transparent;
+  }
+
   .icon {
     color: var(--yellow);
     font-size: 24px;

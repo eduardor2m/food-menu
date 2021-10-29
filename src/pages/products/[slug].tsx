@@ -59,9 +59,21 @@ export default function Dish() {
     );
   }
 
+  async function HandleFavorite() {
+    const storageKey = '@FoodMenu:favorite';
+    const productsStoraged = localStorage.getItem(storageKey);
+    const products = productsStoraged ? JSON.parse(productsStoraged) : [];
+    const data = [...products, product];
+    localStorage.setItem(storageKey, JSON.stringify(data));
+    alert('Produto adicionado aos favoritos!');
+  }
+
   return (
     <div>
-      <HeaderProduct category={product.category} />
+      <HeaderProduct
+        category={product.category}
+        handleOnClick={() => HandleFavorite()}
+      />
       <section className={styles.content}>
         <section className={styles.cardProduct}>
           <section className={styles.productImg}>
