@@ -1,7 +1,7 @@
 import styles from '../styles/components/CardCategory.module.scss';
 
 type CardCategory = {
-  type: 'Carne' | 'Vinho' | 'Massa' | 'Pizza';
+  type: 'Carne' | 'Vinho' | 'Massa' | 'Pizza' | 'Tudo';
 };
 
 export const CardCategory: React.FC<CardCategory> = ({ type }) => {
@@ -16,7 +16,7 @@ export const CardCategory: React.FC<CardCategory> = ({ type }) => {
       case 'Pizza':
         return 'assets/pizza.svg';
       default:
-        return '🍔';
+        return 'assets/massas.svg';
     }
   }
   return (

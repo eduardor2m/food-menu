@@ -41,7 +41,20 @@ const Home: NextPage = () => {
     fetchProducts();
   });
 
+  function handleFilterNameProduct(search: string) {
+    search = search.charAt(0).toUpperCase() + search.slice(1);
+    const filter = products.filter((item) => item.name.includes(search));
+
+    if (filter) {
+      setProductsFiltered(filter);
+      setChange(false);
+    }
+  }
+
   function handleCategory(categoryType: string) {
+    if (categoryType === 'all') {
+      return setChange(true);
+    }
     const productsFilter = products.filter(
       (product) => product.category === categoryType
     );
@@ -58,10 +71,21 @@ const Home: NextPage = () => {
 
       <main>
         <Header />
-        <input className={styles.input} type="text" placeholder="Buscar" />
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Buscar"
+          onChange={(event) => handleFilterNameProduct(event.target.value)}
+        />
         <h2 className={styles.titleCategories}>Categorias</h2>
         <section className={styles.categories}>
           <ScrollMenu>
+            <button
+              className={styles.buttonCategory}
+              onClick={() => handleCategory('all')}
+            >
+              <CardCategory type="Tudo" />
+            </button>
             <button
               className={styles.buttonCategory}
               onClick={() => handleCategory('carne')}
