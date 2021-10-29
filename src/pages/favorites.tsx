@@ -82,7 +82,9 @@ const Favorites: NextPage = () => {
                   </a>
                 </Link>
                 <button onClick={() => handleDelete(item.id)}>
-                  <BiTrash size={24} color="#c72828" />
+                  <section className={styles.wrapperDelete}>
+                    <BiTrash size={24} color="#fff" />
+                  </section>
                 </button>
               </section>
             ))
