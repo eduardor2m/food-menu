@@ -62,3 +62,110 @@
     font-weight: normal;
   }
 }
+
+.titleQuantity {
+  font-size: 20px;
+  color: var(--title);
+  font-weight: bold;
+  margin: 16px 0;
+}
+
+.quantity {
+  width: 100%;
+  height: 50px;
+  border: none;
+  padding: 0px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 8px;
+  background-color: var(--card);
+
+  .quantityText {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .quantityButtons {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    button {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      background-color: var(--white);
+      color: var(--text);
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}
+
+.pedido {
+  width: 100%;
+  height: 50px;
+  margin: 36px 0;
+  border: none;
+
+  h1 {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--title);
+  }
+
+  p {
+    font-size: 24px;
+    color: var(--green);
+    margin-top: 14px;
+    font-weight: bold;
+
+    span {
+      font-weight: normal;
+    }
+  }
+}
+
+.productActions {
+  width: 100%;
+  height: 56px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 8px;
+  margin-top: 60px;
+  display: flex;
+  background-color: var(--green);
+
+  section:first-child {
+    width: 80%;
+    height: 100%;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    background-color: var(--green);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  section {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--greenOpacity);
+  }
+}
