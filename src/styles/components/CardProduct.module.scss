@@ -19,6 +19,15 @@
   display: flex;
   flex-direction: row;
 
+  button {
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-left: 82%;
+    margin-top: 80px;
+  }
+
   img {
     width: 114px;
     height: 114px;

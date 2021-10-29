@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 
 import { CardProduct } from '../components/CardProduct';
 import { HeaderFavorites } from '../components/HeaderFavorites';
@@ -36,6 +35,15 @@ const Favorites: NextPage = () => {
     setProducts([]);
   }
 
+  async function handleDelete(id: number) {
+    const productsFiltered = products.filter((product) => product.id !== id);
+    localStorage.setItem(
+      '@FoodMenu:favorite',
+      JSON.stringify(productsFiltered)
+    );
+    setProducts(productsFiltered);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -52,25 +60,27 @@ const Favorites: NextPage = () => {
         <section className={styles.dishs}>
           {products.length > 0 ? (
             products.map((item) => (
-              <Link
+              // <Link
+              //   key={item.id}
+              //   href={{
+              //     pathname: '/products/[slug]',
+              //     query: { slug: item.id },
+              //   }}
+              // >
+              //   <a>
+              <CardProduct
                 key={item.id}
-                href={{
-                  pathname: '/products/[slug]',
-                  query: { slug: item.id },
+                dish={{
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                  image: item.image,
+                  description: item.description,
+                  handleOnClick: () => handleDelete(item.id),
                 }}
-              >
-                <a>
-                  <CardProduct
-                    dish={{
-                      id: item.id,
-                      name: item.name,
-                      price: item.price,
-                      image: item.image,
-                      description: item.description,
-                    }}
-                  />
-                </a>
-              </Link>
+              />
+              //   </a>
+              // </Link>
             ))
           ) : (
             <p>Nenhum prato favorito</p>

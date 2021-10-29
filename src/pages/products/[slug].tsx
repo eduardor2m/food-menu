@@ -60,12 +60,19 @@ export default function Dish() {
   }
 
   async function HandleFavorite() {
-    const storageKey = '@FoodMenu:favorite';
-    const productsStoraged = localStorage.getItem(storageKey);
-    const products = productsStoraged ? JSON.parse(productsStoraged) : [];
-    const data = [...products, product];
-    localStorage.setItem(storageKey, JSON.stringify(data));
-    alert('Produto adicionado aos favoritos!');
+    try {
+      const storageKey = '@FoodMenu:favorite';
+      const productsStoraged = localStorage.getItem(storageKey);
+      const products = productsStoraged ? JSON.parse(productsStoraged) : [];
+      if (products.find((item: Product) => item.id === product.id)) {
+        return alert('Produto já adicionado aos favoritos');
+      }
+      const data = [...products, product];
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      alert('Produto adicionado aos favoritos!');
+    } catch (error) {
+      alert('Erro ao adicionar produto aos favoritos');
+    }
   }
 
   return (
