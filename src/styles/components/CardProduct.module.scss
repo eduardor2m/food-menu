@@ -28,11 +28,17 @@
     margin-top: 80px;
   }
 
-  img {
+  .image {
     width: 114px;
     height: 114px;
     padding: 10px;
     background-color: var(--yellow);
+
+    img {
+      width: 94px;
+      height: 94px;
+      border-radius: 50%;
+    }
   }
 
   .info {

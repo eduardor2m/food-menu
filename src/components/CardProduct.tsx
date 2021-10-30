@@ -20,7 +20,7 @@ export const CardProduct: React.FC<Props> = ({ dish }) => {
     <div className={styles.container}>
       <div className={styles.content}>
         <section className={styles.image}>
-          <img src="assets/camarao.svg" />
+          <img src={dish.image} />
         </section>
         <section className={styles.info}>
           <h3 className={styles.title}>{dish.name}</h3>
