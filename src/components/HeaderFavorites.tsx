@@ -1,7 +1,7 @@
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { BiTrash } from 'react-icons/bi';
 
-import styles from '../styles/components/HeaderProduct.module.scss';
+import styles from '../styles/components/HeaderFavorite.module.scss';
 
 interface Props {
   title: string;

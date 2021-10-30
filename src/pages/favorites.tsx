@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import { CardProduct } from '../components/CardProduct';
 import { HeaderFavorites } from '../components/HeaderFavorites';
-import styles from '../styles/pages/Home.module.scss';
+import styles from '../styles/pages/Favorites.module.scss';
 
 type Product = {
   id: number;
