@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 import { CardCategory } from '../components/CardCategory';
 import { CardProduct } from '../components/CardProduct';
+import { CartButton } from '../components/CartButton';
 import { Header } from '../components/Header';
 import styles from '../styles/pages/Home.module.scss';
 
@@ -24,6 +25,7 @@ const Home: NextPage = () => {
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [change, setChange] = useState(true);
   const [inputValue, setInputValue] = useState(true);
+  const [cart, setCart] = useState<Product[]>();
 
   useEffect(() => {
     async function fetchProducts() {
@@ -37,6 +39,13 @@ const Home: NextPage = () => {
         )
       ).json();
       setProducts(data);
+      const storageKey = '@FoodMenu:cart';
+      const productsStoraged: Product[] = await JSON.parse(
+        localStorage.getItem(storageKey) || '[]'
+      );
+      if (productsStoraged.length > 0) {
+        setCart(productsStoraged);
+      }
     }
 
     fetchProducts();
@@ -72,6 +81,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
+        {cart ? <CartButton count={cart.length} /> : null}
+
         <Header />
         <input
           className={styles.input}
@@ -119,7 +130,7 @@ const Home: NextPage = () => {
           </section>
         ) : null}
 
-        <h2 className={styles.titleDishs}>Pratos</h2>
+        <h2 className={styles.titleDishs}>Produtos</h2>
         <section className={styles.dishs}>
           {change
             ? products.map((item) => (

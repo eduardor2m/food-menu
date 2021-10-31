@@ -6,7 +6,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import { CardProduct } from '../components/CardProduct';
-import { CartButton } from '../components/CartButton';
 import { HeaderFavorites } from '../components/HeaderFavorites';
 import { Modal } from '../components/Modal';
 import styles from '../styles/pages/Favorites.module.scss';
@@ -20,33 +19,25 @@ type Product = {
   description: string;
 };
 
-const Favorites: NextPage = () => {
+const Cart: NextPage = () => {
   const [products, setProducts] = useState<Product[]>([] as Product[]);
   const [modal, setModal] = useState(false);
   const [all, setAll] = useState(false);
   const [idProduct, setIdProduct] = useState(0);
-  const [cart, setCart] = useState<Product[]>();
 
   useEffect(() => {
     async function getProducts() {
-      const storageKey = '@FoodMenu:favorite';
+      const storageKey = '@FoodMenu:cart';
       const productsStoraged: Product[] = await JSON.parse(
         localStorage.getItem(storageKey) || '[]'
       );
       setProducts(productsStoraged);
-      const storageKeyCart = '@FoodMenu:cart';
-      const productsStoragedCart: Product[] = await JSON.parse(
-        localStorage.getItem(storageKeyCart) || '[]'
-      );
-      if (productsStoragedCart.length > 0) {
-        setCart(productsStoragedCart);
-      }
     }
     getProducts();
   }, []);
 
   async function handleDeleteAll() {
-    localStorage.removeItem('@FoodMenu:favorite');
+    localStorage.removeItem('@FoodMenu:cart');
     setProducts([]);
     setModal(false);
   }
@@ -60,10 +51,7 @@ const Favorites: NextPage = () => {
     const productsFiltered = products.filter(
       (product) => product.id !== idProduct
     );
-    localStorage.setItem(
-      '@FoodMenu:favorite',
-      JSON.stringify(productsFiltered)
-    );
+    localStorage.setItem('@FoodMenu:cart', JSON.stringify(productsFiltered));
     setProducts(productsFiltered);
     setModal(false);
   }
@@ -86,15 +74,14 @@ const Favorites: NextPage = () => {
         </Head>
 
         <main>
-          {cart ? <CartButton count={cart.length} /> : null}
           <HeaderFavorites
-            title="Favoritos"
+            title="Carrinho"
             handleOnClick={() => {
               setAll(true);
               setModal(true);
             }}
           />
-          <h2 className={styles.titleDishs}>Produtos</h2>
+          <h2 className={styles.titleDishs}>Pratos</h2>
           <section className={styles.dishs}>
             {products.length > 0 ? (
               products.map((item) => (
@@ -130,7 +117,7 @@ const Favorites: NextPage = () => {
                 </section>
               ))
             ) : (
-              <p>Nenhum produto favorito</p>
+              <p>Nenhum produto no carrinho</p>
             )}
           </section>
         </main>
@@ -139,4 +126,4 @@ const Favorites: NextPage = () => {
   );
 };
 
-export default Favorites;
+export default Cart;

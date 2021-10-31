@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
+import { IoCart } from 'react-icons/io5';
 
 import { useRouter } from 'next/router';
 
+import { CartButton } from '../../components/CartButton';
 import { HeaderProduct } from '../../components/HeaderProduct';
 import styles from '../../styles/pages/Product.module.scss';
 
@@ -19,6 +21,8 @@ export default function Dish() {
   const [product, setProduct] = useState<Product>({} as Product);
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(0);
+  const [cart, setCart] = useState<Product[]>();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -30,6 +34,14 @@ export default function Dish() {
     async function fetchData() {
       const data = await (await fetch(`/api/product/${slug}`)).json();
       setProduct(data);
+    }
+
+    const storageKeyCart = '@FoodMenu:cart';
+    const productsStoragedCart: Product[] = JSON.parse(
+      localStorage.getItem(storageKeyCart) || '[]'
+    );
+    if (productsStoragedCart.length > 0) {
+      setCart(productsStoragedCart);
     }
 
     fetchData();
@@ -59,6 +71,22 @@ export default function Dish() {
     );
   }
 
+  async function handleAddCart() {
+    try {
+      const storageKey = '@FoodMenu:cart';
+      const productsStoraged = localStorage.getItem(storageKey);
+      const products = productsStoraged ? JSON.parse(productsStoraged) : [];
+      if (products.find((item: Product) => item.id === product.id)) {
+        return alert('Produto já adicionado aos favoritos');
+      }
+      const data = [...products, product];
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      alert('Produto adicionado aos favoritos!');
+    } catch (error) {
+      alert('Erro ao adicionar produto aos favoritos');
+    }
+  }
+
   async function HandleFavorite() {
     try {
       const storageKey = '@FoodMenu:favorite';
@@ -77,6 +105,7 @@ export default function Dish() {
 
   return (
     <div>
+      {cart ? <CartButton count={cart.length} /> : null}
       <HeaderProduct
         category={product.category}
         handleOnClick={() => HandleFavorite()}
@@ -114,6 +143,14 @@ export default function Dish() {
             <span>R$</span> {price}
           </p>
         </section>
+        <button className={styles.cartButton} onClick={() => handleAddCart()}>
+          <section className={styles.cartButtonText}>
+            Adicionar ao carrinho
+          </section>
+          <section>
+            <IoCart color="#fff" size={24} />
+          </section>
+        </button>
         <button className={styles.productActions} onClick={redirectWhatsapp}>
           <section className={styles.text}>Pedir no WhatsApp</section>
           <section>

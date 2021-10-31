@@ -1,0 +1,25 @@
+.cart {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-left: 80%;
+  margin-top: 90vh;
+  background-color: var(--green);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .icon {
+    width: 32px;
+    height: 32px;
+    color: var(--white);
+  }
+
+  span {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--white);
+  }
+}

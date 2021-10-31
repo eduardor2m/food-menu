@@ -18,7 +18,7 @@ export const HeaderProduct: React.FC<Props> = ({ category, handleOnClick }) => {
         <button onClick={handleBack}>
           <AiOutlineArrowLeft className={styles.icon} />
         </button>
-        <h1 className={styles.title}>Prato - {category}</h1>
+        <h1 className={styles.title}>Categoria - {category}</h1>
         <button onClick={handleOnClick}>
           <MdOutlineFavoriteBorder className={styles.icon} />
         </button>
