@@ -23,6 +23,7 @@ const Home: NextPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [change, setChange] = useState(true);
+  const [inputValue, setInputValue] = useState(false);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -42,6 +43,7 @@ const Home: NextPage = () => {
   });
 
   function handleFilterNameProduct(search: string) {
+    setInputValue(!search);
     search = search.charAt(0).toUpperCase() + search.slice(1);
     const filter = products.filter((item) => item.name.includes(search));
 
@@ -77,41 +79,46 @@ const Home: NextPage = () => {
           placeholder="Buscar"
           onChange={(event) => handleFilterNameProduct(event.target.value)}
         />
-        <h2 className={styles.titleCategories}>Categorias</h2>
-        <section className={styles.categories}>
-          <ScrollMenu>
-            <button
-              className={styles.buttonCategory}
-              onClick={() => handleCategory('all')}
-            >
-              <CardCategory type="Tudo" />
-            </button>
-            <button
-              className={styles.buttonCategory}
-              onClick={() => handleCategory('carne')}
-            >
-              <CardCategory type="Carne" />
-            </button>
-            <button
-              className={styles.buttonCategory}
-              onClick={() => handleCategory('pizza')}
-            >
-              <CardCategory type="Pizza" />
-            </button>
-            <button
-              className={styles.buttonCategory}
-              onClick={() => handleCategory('massa')}
-            >
-              <CardCategory type="Massa" />
-            </button>
-            <button
-              className={styles.buttonCategory}
-              onClick={() => handleCategory('vinho')}
-            >
-              <CardCategory type="Vinho" />
-            </button>
-          </ScrollMenu>
-        </section>
+        {inputValue ? (
+          <section>
+            <h2 className={styles.titleCategories}>Categorias</h2>
+            <section className={styles.categories}>
+              <ScrollMenu>
+                <button
+                  className={styles.buttonCategory}
+                  onClick={() => handleCategory('all')}
+                >
+                  <CardCategory type="Tudo" />
+                </button>
+                <button
+                  className={styles.buttonCategory}
+                  onClick={() => handleCategory('carne')}
+                >
+                  <CardCategory type="Carne" />
+                </button>
+                <button
+                  className={styles.buttonCategory}
+                  onClick={() => handleCategory('pizza')}
+                >
+                  <CardCategory type="Pizza" />
+                </button>
+                <button
+                  className={styles.buttonCategory}
+                  onClick={() => handleCategory('massa')}
+                >
+                  <CardCategory type="Massa" />
+                </button>
+                <button
+                  className={styles.buttonCategory}
+                  onClick={() => handleCategory('vinho')}
+                >
+                  <CardCategory type="Vinho" />
+                </button>
+              </ScrollMenu>
+            </section>
+          </section>
+        ) : null}
+
         <h2 className={styles.titleDishs}>Pratos</h2>
         <section className={styles.dishs}>
           {change
