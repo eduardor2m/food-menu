@@ -23,7 +23,7 @@ const Home: NextPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [change, setChange] = useState(true);
-  const [inputValue, setInputValue] = useState(false);
+  const [inputValue, setInputValue] = useState(true);
 
   useEffect(() => {
     async function fetchProducts() {
