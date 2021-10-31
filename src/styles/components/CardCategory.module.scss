@@ -24,4 +24,8 @@
   margin: 0;
   background-color: #fafafa;
   border-radius: 5px;
+
+  &:active {
+    background-color: var(--input);
+  }
 }
