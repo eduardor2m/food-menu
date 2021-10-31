@@ -6,21 +6,31 @@ import styles from '../styles/components/Modal.module.scss';
 interface Props {
   handleDeleteProduct: () => void;
   handleCloseModal: () => void;
+  handleDeleteAll: () => void;
   name?: string;
+  all?: boolean;
 }
 
 export const Modal: React.FC<Props> = ({
   handleDeleteProduct,
+  handleDeleteAll,
   handleCloseModal,
   name,
+  all,
 }) => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <section className={styles.sectionInfo}>
-          <h1>Deseja deletar este item dos favoritos?</h1>
-          <p>Item: {name}</p>
-        </section>
+        {all ? (
+          <section className={styles.sectionInfo}>
+            <h1>Deseja deletar todos os itens dos favoritos?</h1>
+          </section>
+        ) : (
+          <section className={styles.sectionInfo}>
+            <h1>Deseja deletar este item dos favoritos?</h1>
+            <p>Item: {name}</p>
+          </section>
+        )}
 
         <section className={styles.sectionButtons}>
           <button onClick={handleCloseModal}>
@@ -29,7 +39,7 @@ export const Modal: React.FC<Props> = ({
               <AiOutlineStar className={styles.icon} />
             </section>
           </button>
-          <button onClick={handleDeleteProduct}>
+          <button onClick={all ? handleDeleteAll : handleDeleteProduct}>
             <section>
               <span>Sim</span>
               <BiTrash className={styles.icon} />

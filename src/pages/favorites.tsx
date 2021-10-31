@@ -22,6 +22,7 @@ type Product = {
 const Favorites: NextPage = () => {
   const [products, setProducts] = useState<Product[]>([] as Product[]);
   const [modal, setModal] = useState(false);
+  const [all, setAll] = useState(false);
   const [idProduct, setIdProduct] = useState(0);
 
   useEffect(() => {
@@ -38,19 +39,12 @@ const Favorites: NextPage = () => {
   async function handleDeleteAll() {
     localStorage.removeItem('@FoodMenu:favorite');
     setProducts([]);
+    setModal(false);
   }
 
-  // async function handleDelete(id: number) {
-  //   const productsFiltered = products.filter((product) => product.id !== id);
-  //   localStorage.setItem(
-  //     '@FoodMenu:favorite',
-  //     JSON.stringify(productsFiltered)
-  //   );
-  //   setProducts(productsFiltered);
-  // }
-
-  function changeModal() {
-    setModal(!modal);
+  function handleCloseModal() {
+    setAll(false);
+    setModal(false);
   }
 
   async function handleDelete() {
@@ -62,6 +56,7 @@ const Favorites: NextPage = () => {
       JSON.stringify(productsFiltered)
     );
     setProducts(productsFiltered);
+    setModal(false);
   }
 
   return (
@@ -69,8 +64,10 @@ const Favorites: NextPage = () => {
       {modal && (
         <Modal
           handleDeleteProduct={() => handleDelete()}
-          handleCloseModal={() => changeModal()}
+          handleCloseModal={() => handleCloseModal()}
+          handleDeleteAll={() => handleDeleteAll()}
           name={products.find((product) => product.id === idProduct)?.name}
+          all={all}
         />
       )}
       <div className={styles.container}>
@@ -82,7 +79,10 @@ const Favorites: NextPage = () => {
         <main>
           <HeaderFavorites
             title="Favoritos"
-            handleOnClick={() => handleDeleteAll()}
+            handleOnClick={() => {
+              setAll(true);
+              setModal(true);
+            }}
           />
           <h2 className={styles.titleDishs}>Pratos</h2>
           <section className={styles.dishs}>
@@ -110,7 +110,7 @@ const Favorites: NextPage = () => {
                   <button
                     onClick={() => {
                       setIdProduct(item.id);
-                      changeModal();
+                      setModal(true);
                     }}
                   >
                     <section className={styles.wrapperDelete}>
