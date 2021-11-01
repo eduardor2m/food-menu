@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { AiOutlineHome } from 'react-icons/ai';
 import { BiTrash } from 'react-icons/bi';
 
 import type { NextPage } from 'next';
@@ -15,8 +16,14 @@ const Cart: NextPage = () => {
   const [modal, setModal] = useState(false);
   const [all, setAll] = useState(false);
   const [idProduct, setIdProduct] = useState(0);
+  const [price, setPrice] = useState(0);
 
-  const { cart, clearCart, removeFromCart } = useCart();
+  const { cart, clearCart, removeFromCart, getTotalPrice } = useCart();
+
+  useEffect(() => {
+    const data = getTotalPrice();
+    setPrice(data);
+  }, [cart, getTotalPrice]);
 
   async function handleDeleteAll() {
     clearCart();
@@ -34,9 +41,11 @@ const Cart: NextPage = () => {
   }
 
   async function cartRequestWhatsapp() {
-    const url = `https://api.whatsapp.com/send?phone=82998394523&text=Olá,%20tenho%20interesse%20no%20produto%20${cart.map(
-      (item) => item.name
-    )}`;
+    const url = `https://api.whatsapp.com/send?phone=5582998394523&text=Olá,%20tenho%20interesse%20no%20produtos%3A${cart.map(
+      (item) => `%20${item.name}`
+    )}.%20Quantidade:${cart.map(
+      (item) => `%20${item.quantity}`
+    )}.%20Subtotal%3A%20R%24%20${price}`;
 
     window.open(url, '_blank');
   }
@@ -114,11 +123,27 @@ const Cart: NextPage = () => {
               }}
               className={styles.buttonWhatsapp}
             >
-              Finalizar compra
+              <section className={styles.wrapperButton}>
+                <section className={styles.sectionTitle}>
+                  <h1>Finalizar compra</h1>{' '}
+                </section>
+                <section className={styles.sectionPriceTotal}>
+                  <span>R$: {price}</span>
+                </section>
+              </section>
             </button>
             <button>
               <Link href="/">
-                <a>Continuar comprando</a>
+                <a className={styles.wrapperLink}>
+                  <section className={styles.wrapperButton}>
+                    <section className={styles.sectionTitle}>
+                      <h1>Continuar comprando</h1>{' '}
+                    </section>
+                    <section className={styles.sectionPriceTotal}>
+                      <AiOutlineHome size={24} color="#fff" />
+                    </section>
+                  </section>
+                </a>
               </Link>
             </button>
           </section>

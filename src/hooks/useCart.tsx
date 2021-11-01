@@ -41,36 +41,45 @@ export function CartProvider({ children }: CartProviderProps) {
   });
 
   function addToCart(item: CartItem) {
-    if (cart.length > 0) {
-      const itemExists = cart.find((cartItem) => cartItem.id === item.id);
+    try {
+      if (cart.length > 0) {
+        const itemExists = cart.find((cartItem) => cartItem.id === item.id);
 
-      if (itemExists) {
-        itemExists.quantity += item.quantity;
-        setCart([...cart, { ...itemExists }]);
-        localStorage.setItem(
-          '@FoodMenu:cart',
-          JSON.stringify([cart, { ...itemExists }])
-        );
+        if (itemExists) {
+          itemExists.quantity += item.quantity;
+          setCart([...cart]);
+          localStorage.setItem('@FoodMenu:cart', JSON.stringify([...cart]));
+        } else {
+          setCart([...cart, item]);
+          localStorage.setItem(
+            '@FoodMenu:cart',
+            JSON.stringify([...cart, item])
+          );
+        }
       } else {
-        setCart([...cart, item]);
-        localStorage.setItem('@FoodMenu:cart', JSON.stringify([...cart, item]));
+        setCart([{ ...item }]);
+        localStorage.setItem('@FoodMenu:cart', JSON.stringify([{ ...item }]));
       }
-    } else {
-      setCart([{ ...item }]);
-      localStorage.setItem('@FoodMenu:cart', JSON.stringify([{ ...item }]));
+      alert('Produto adicionado ao carrinho');
+    } catch (e) {
+      alert('Não foi possivel adicionar o produto ao carrinho');
     }
   }
 
   function removeFromCart(id: number) {
-    const productIndex = cart.findIndex((p) => p.id === id);
+    try {
+      const productIndex = cart.findIndex((p) => p.id === id);
 
-    if (productIndex >= 0) {
-      const newCart = [...cart];
+      if (productIndex >= 0) {
+        const newCart = [...cart];
 
-      newCart.splice(productIndex, 1);
+        newCart.splice(productIndex, 1);
 
-      setCart(newCart);
-      localStorage.setItem('@FoodMenu:cart', JSON.stringify(newCart));
+        setCart(newCart);
+        localStorage.setItem('@FoodMenu:cart', JSON.stringify(newCart));
+      }
+    } catch (e) {
+      alert('Não foi possivel remover o produto do carrinho');
     }
   }
 
