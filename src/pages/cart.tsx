@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BiTrash } from 'react-icons/bi';
 
 import type { NextPage } from 'next';
@@ -8,37 +8,18 @@ import Link from 'next/link';
 import { CardProduct } from '../components/CardProduct';
 import { HeaderFavorites } from '../components/HeaderFavorites';
 import { Modal } from '../components/Modal';
-import styles from '../styles/pages/Favorites.module.scss';
-
-type Product = {
-  id: number;
-  category: string;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-};
+import { useCart } from '../hooks/useCart';
+import styles from '../styles/pages/Cart.module.scss';
 
 const Cart: NextPage = () => {
-  const [products, setProducts] = useState<Product[]>([] as Product[]);
   const [modal, setModal] = useState(false);
   const [all, setAll] = useState(false);
   const [idProduct, setIdProduct] = useState(0);
 
-  useEffect(() => {
-    async function getProducts() {
-      const storageKey = '@FoodMenu:cart';
-      const productsStoraged: Product[] = await JSON.parse(
-        localStorage.getItem(storageKey) || '[]'
-      );
-      setProducts(productsStoraged);
-    }
-    getProducts();
-  }, []);
+  const { cart, clearCart, removeFromCart } = useCart();
 
   async function handleDeleteAll() {
-    localStorage.removeItem('@FoodMenu:cart');
-    setProducts([]);
+    clearCart();
     setModal(false);
   }
 
@@ -48,12 +29,16 @@ const Cart: NextPage = () => {
   }
 
   async function handleDelete() {
-    const productsFiltered = products.filter(
-      (product) => product.id !== idProduct
-    );
-    localStorage.setItem('@FoodMenu:cart', JSON.stringify(productsFiltered));
-    setProducts(productsFiltered);
+    removeFromCart(idProduct);
     setModal(false);
+  }
+
+  async function cartRequestWhatsapp() {
+    const url = `https://api.whatsapp.com/send?phone=82998394523&text=Olá,%20tenho%20interesse%20no%20produto%20${cart.map(
+      (item) => item.name
+    )}`;
+
+    window.open(url, '_blank');
   }
 
   return (
@@ -63,8 +48,9 @@ const Cart: NextPage = () => {
           handleDeleteProduct={() => handleDelete()}
           handleCloseModal={() => handleCloseModal()}
           handleDeleteAll={() => handleDeleteAll()}
-          name={products.find((product) => product.id === idProduct)?.name}
+          name={cart.find((product) => product.id === idProduct)?.name}
           all={all}
+          cart={true}
         />
       )}
       <div className={styles.container}>
@@ -81,10 +67,10 @@ const Cart: NextPage = () => {
               setModal(true);
             }}
           />
-          <h2 className={styles.titleDishs}>Pratos</h2>
+          <h2 className={styles.titleDishs}>Produtos</h2>
           <section className={styles.dishs}>
-            {products.length > 0 ? (
-              products.map((item) => (
+            {cart.length > 0 ? (
+              cart.map((item) => (
                 <section className={styles.wrapperProduct} key={item.id}>
                   <Link
                     href={{
@@ -99,6 +85,7 @@ const Cart: NextPage = () => {
                           name: item.name,
                           price: item.price,
                           image: item.image,
+                          quantity: item.quantity,
                           description: item.description,
                         }}
                       />
@@ -119,6 +106,21 @@ const Cart: NextPage = () => {
             ) : (
               <p>Nenhum produto no carrinho</p>
             )}
+          </section>
+          <section className={styles.footer}>
+            <button
+              onClick={() => {
+                cartRequestWhatsapp();
+              }}
+              className={styles.buttonWhatsapp}
+            >
+              Finalizar compra
+            </button>
+            <button>
+              <Link href="/">
+                <a>Continuar comprando</a>
+              </Link>
+            </button>
           </section>
         </main>
       </div>

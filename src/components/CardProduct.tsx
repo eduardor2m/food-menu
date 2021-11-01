@@ -8,6 +8,7 @@ interface Dish {
   price: number;
   image: string;
   description: string;
+  quantity?: number;
   handleOnClick?: () => void;
 }
 
@@ -27,6 +28,11 @@ export const CardProduct: React.FC<Props> = ({ dish }) => {
           <p className={styles.description}>{dish.description}</p>
           <section>
             <p className={styles.price}>R$ {dish.price}</p>
+            {dish.quantity && (
+              <p className={styles.quantity}>
+                {dish.quantity} {dish.quantity > 1 ? 'unidades' : 'unidade'}
+              </p>
+            )}
           </section>
         </section>
         {dish.handleOnClick ? (

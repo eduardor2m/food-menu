@@ -9,6 +9,7 @@ interface Props {
   handleDeleteAll: () => void;
   name?: string;
   all?: boolean;
+  cart?: boolean;
 }
 
 export const Modal: React.FC<Props> = ({
@@ -17,17 +18,24 @@ export const Modal: React.FC<Props> = ({
   handleCloseModal,
   name,
   all,
+  cart,
 }) => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         {all ? (
           <section className={styles.sectionInfo}>
-            <h1>Deseja deletar todos os itens dos favoritos?</h1>
+            <h1>
+              Deseja deletar todos os itens do{cart ? '' : 's'}{' '}
+              {cart ? 'Carrinho' : 'Favoritos'}?
+            </h1>
           </section>
         ) : (
           <section className={styles.sectionInfo}>
-            <h1>Deseja deletar este item dos favoritos?</h1>
+            <h1>
+              Deseja deletar este item do{cart ? '' : 's'}{' '}
+              {cart ? 'Carrinho' : 'Favoritos'}?
+            </h1>
             <p>Item: {name}</p>
           </section>
         )}

@@ -9,6 +9,7 @@ import { CardProduct } from '../components/CardProduct';
 import { CartButton } from '../components/CartButton';
 import { HeaderFavorites } from '../components/HeaderFavorites';
 import { Modal } from '../components/Modal';
+import { useCart } from '../hooks/useCart';
 import styles from '../styles/pages/Favorites.module.scss';
 
 type Product = {
@@ -25,7 +26,8 @@ const Favorites: NextPage = () => {
   const [modal, setModal] = useState(false);
   const [all, setAll] = useState(false);
   const [idProduct, setIdProduct] = useState(0);
-  const [cart, setCart] = useState<Product[]>();
+
+  const { cart } = useCart();
 
   useEffect(() => {
     async function getProducts() {
@@ -34,13 +36,6 @@ const Favorites: NextPage = () => {
         localStorage.getItem(storageKey) || '[]'
       );
       setProducts(productsStoraged);
-      const storageKeyCart = '@FoodMenu:cart';
-      const productsStoragedCart: Product[] = await JSON.parse(
-        localStorage.getItem(storageKeyCart) || '[]'
-      );
-      if (productsStoragedCart.length > 0) {
-        setCart(productsStoragedCart);
-      }
     }
     getProducts();
   }, []);
@@ -86,7 +81,7 @@ const Favorites: NextPage = () => {
         </Head>
 
         <main>
-          {cart ? <CartButton count={cart.length} /> : null}
+          {cart.length > 0 ? <CartButton count={cart.length} /> : null}
           <HeaderFavorites
             title="Favoritos"
             handleOnClick={() => {

@@ -54,11 +54,23 @@
       font-size: 10px;
       color: var(--title);
     }
+    section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 20px;
+      .price {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--green);
+      }
 
-    .price {
-      font-size: 18px;
-      font-weight: bold;
-      color: var(--green);
+      .quantity {
+        font-size: 12px;
+        font-weight: bold;
+        color: var(--title);
+      }
     }
   }
 }
