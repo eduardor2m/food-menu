@@ -1,6 +1,9 @@
+import faunadb from 'faunadb';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { products } from '../products';
+import { fauna } from '../../../services/fauna';
+
+const q = faunadb.query;
 
 type Product = {
   id: number;
@@ -19,12 +22,32 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Product | Message>
 ) {
-  const product = products.find(
-    (p) => p.id === parseInt(req.query.slug as string, 10)
-  );
-  if (product) {
-    res.status(200).json(product);
-  } else {
-    res.status(404).json({ message: 'Product not found' });
+  const slug = Number(req.query.slug);
+
+  if (!slug) {
+    res.status(400).json({ message: 'Invalid slug' });
+    return;
   }
+
+  fauna
+    .query(
+      q.Map(
+        q.Paginate(q.Match(q.Index('products_by_id'), slug)),
+        q.Lambda('x', q.Get(q.Var('x')))
+      )
+    )
+    .then((response: any) => {
+      const product = response.data[0].data;
+
+      if (!product) {
+        res.status(404).json({ message: 'Product not found' });
+        return;
+      }
+
+      res.status(200).json(product);
+    })
+    .catch((error: any) => {
+      console.error(error);
+      res.status(500).json({ message: 'Something went wrong' });
+    });
 }

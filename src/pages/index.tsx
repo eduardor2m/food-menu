@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 
 import type { NextPage } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -21,7 +22,9 @@ type Product = {
   description: string;
 };
 
-const Home: NextPage = () => {
+const Home: NextPage = ({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [change, setChange] = useState(true);
@@ -29,21 +32,8 @@ const Home: NextPage = () => {
   const { cart } = useCart();
 
   useEffect(() => {
-    async function fetchProducts() {
-      const data: Product[] = await (
-        await fetch(
-          `${
-            process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
-              ? process.env.NEXT_PUBLIC_ADRESS
-              : 'http://localhost:3000/api/products'
-          }`
-        )
-      ).json();
-      setProducts(data);
-    }
-
-    fetchProducts();
-  });
+    setProducts(data);
+  }, [data]);
 
   function handleFilterNameProduct(search: string) {
     setInputValue(!search);
@@ -173,6 +163,24 @@ const Home: NextPage = () => {
       </main>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+        ? process.env.NEXT_PUBLIC_ADRESS
+        : 'http://localhost:3000/api/products'
+    }`
+  );
+
+  const data = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
 };
 
 export default Home;
