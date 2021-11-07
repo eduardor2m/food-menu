@@ -1,19 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useSession } from 'next-auth/client';
+import { useSession, signOut } from 'next-auth/client';
 import { useRouter } from 'next/router';
 
-import { Header } from '../components/Header';
+import { HeaderUser } from '../components/HeaderUser';
 import styles from '../styles/pages/Add.module.scss';
 
 export default function Add() {
   const [session] = useSession();
   const router = useRouter();
 
-  if (!session) {
-    router.push('/');
-  }
+  useEffect(() => {
+    if (!session) {
+      router.push('/login');
+    }
+  });
   const [id, setId] = useState(0);
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
@@ -22,31 +24,44 @@ export default function Add() {
   const [description, setDescription] = useState('');
 
   async function handleClick() {
-    await fetch(`http://localhost:3000/api/products`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id,
-        name,
-        category,
-        price,
-        image,
-        description,
-      }),
-    });
+    try {
+      await fetch(`http://localhost:3000/api/products`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          name,
+          category,
+          price,
+          image,
+          description,
+        }),
+      });
+      setId(0);
+      setName('');
+      setCategory('');
+      setPrice(0);
+      setImage('');
+      setDescription('');
+    } catch (error) {
+      alert('Não foi possível adicionar o produto');
+    }
   }
 
   return (
     <div className={styles.container}>
-      <Header />
+      <HeaderUser
+        title="Adcionar - Produtos"
+        handleOnClick={() => signOut()}
+        login={false}
+      />
       <div className={styles.content}>
         <input
           type="number"
           id="id"
           placeholder="ID"
-          // value={id}
           onChange={(event) => setId(Number(event.target.value))}
         />
         <input
@@ -63,7 +78,7 @@ export default function Add() {
           onChange={(event) => setCategory(event.target.value)}
         >
           <option value="carne">Carne</option>
-          <option value="massa">Peixe</option>
+          <option value="massa">Massa</option>
           <option value="vinho">Vinho</option>
           <option value="pizza">Pizza</option>
         </select>
@@ -71,7 +86,6 @@ export default function Add() {
           type="number"
           id="price"
           placeholder="Preço"
-          // value={price}
           onChange={(event) => setPrice(Number(event.target.value))}
         />
         <input
@@ -88,7 +102,7 @@ export default function Add() {
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
-        <button onClick={handleClick}>Add</button>
+        <button onClick={handleClick}>Adicionar</button>
       </div>
     </div>
   );

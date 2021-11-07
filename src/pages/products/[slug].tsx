@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { IoCart } from 'react-icons/io5';
 
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'next';
 
 import { CartButton } from '../../components/CartButton';
 import { HeaderProduct } from '../../components/HeaderProduct';
@@ -20,7 +20,7 @@ type Product = {
 
 export default function Dish({
   data,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const [product, setProduct] = useState<Product>({} as Product);
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(0);
@@ -135,7 +135,14 @@ export default function Dish({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const params = context.params;
   const { slug }: any = params;
 
@@ -153,5 +160,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       data,
     },
+
+    revalidate: 60 * 60 * 24, // 24 hours
   };
 };

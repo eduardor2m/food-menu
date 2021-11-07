@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 
 import type { NextPage } from 'next';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { InferGetStaticPropsType, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -24,7 +24,7 @@ type Product = {
 
 const Home: NextPage = ({
   data,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [change, setChange] = useState(true);
@@ -165,7 +165,7 @@ const Home: NextPage = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
@@ -180,6 +180,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       data,
     },
+    revalidate: 60 * 60 * 24, // 24 hours
   };
 };
 
