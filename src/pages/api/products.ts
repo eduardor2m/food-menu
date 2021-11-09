@@ -31,6 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const products = data.map((product) => {
       return {
         id: product.data.id,
+        category: product.data.category,
         name: product.data.name,
         price: product.data.price,
         description: product.data.description,

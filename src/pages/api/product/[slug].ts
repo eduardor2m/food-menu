@@ -22,7 +22,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Product | Message>
 ) {
-  const slug = Number(req.query.slug);
+  const slug = req.query.slug;
 
   if (!slug) {
     res.status(400).json({ message: 'Invalid slug' });

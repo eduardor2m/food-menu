@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from 'react';
 
-import { useSession, signOut } from 'next-auth/client';
+import { GetServerSideProps } from 'next';
+import { useSession, signOut, getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 
 import { HeaderUser } from '../components/HeaderUser';
@@ -16,7 +16,6 @@ export default function Add() {
       router.push('/login');
     }
   });
-  const [id, setId] = useState(0);
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState(0);
@@ -31,7 +30,7 @@ export default function Add() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id,
+          id: Math.floor(Date.now() * Math.random()).toString(36),
           name,
           category,
           price,
@@ -39,7 +38,6 @@ export default function Add() {
           description,
         }),
       });
-      setId(0);
       setName('');
       setCategory('');
       setPrice(0);
@@ -58,12 +56,6 @@ export default function Add() {
         login={false}
       />
       <div className={styles.content}>
-        <input
-          type="number"
-          id="id"
-          placeholder="ID"
-          onChange={(event) => setId(Number(event.target.value))}
-        />
         <input
           type="text"
           id="name"
@@ -107,3 +99,12 @@ export default function Add() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession({ req: context.req });
+  if (!session) {
+    context.res.writeHead(302, { Location: '/login' });
+    context.res.end();
+  }
+  return { props: { session } };
+};
