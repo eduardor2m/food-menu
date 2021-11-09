@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { IoCart } from 'react-icons/io5';
 
-import { useRouter } from 'next/router';
+import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'next';
 
 import { CartButton } from '../../components/CartButton';
 import { HeaderProduct } from '../../components/HeaderProduct';
@@ -18,28 +18,19 @@ type Product = {
   description: string;
 };
 
-export default function Dish() {
+export default function Dish({
+  data,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const [product, setProduct] = useState<Product>({} as Product);
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(0);
 
   const { cart, addToCart } = useCart();
 
-  const router = useRouter();
-
   useEffect(() => {
-    const { slug } = router.query;
-
-    if (!slug) {
-      router.push('/');
-    }
-    async function fetchData() {
-      const data = await (await fetch(`/api/product/${slug}`)).json();
-      setProduct(data);
-    }
-
-    fetchData();
-  });
+    setProduct(data);
+    setPrice(data.price);
+  }, [data]);
 
   useEffect(() => {
     setPrice(product.price * quantity);
@@ -143,3 +134,33 @@ export default function Dish() {
     </div>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const params = context.params;
+  const { slug }: any = params;
+
+  const res = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+        ? process.env.NEXT_PUBLIC_ADRESS
+        : `http://localhost:3000/api/product/${slug}`
+    }`
+  );
+
+  const data = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+
+    revalidate: 60 * 60 * 24, // 24 hours
+  };
+};
