@@ -149,7 +149,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
-        ? process.env.NEXT_PUBLIC_ADRESS
+        ? `process.env.NEXT_PUBLIC_ADRESS/${slug}`
         : `http://localhost:3000/api/product/${slug}`
     }`
   );

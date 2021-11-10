@@ -24,20 +24,27 @@ export default function Add() {
 
   async function handleClick() {
     try {
-      await fetch(`http://localhost:3000/api/products`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: Math.floor(Date.now() * Math.random()).toString(36),
-          name,
-          category,
-          price,
-          image,
-          description,
-        }),
-      });
+      await fetch(
+        `${
+          process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+            ? process.env.NEXT_PUBLIC_ADRESS
+            : 'http://localhost:3000/api/products'
+        }`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: Math.floor(Date.now() * Math.random()).toString(36),
+            name,
+            category,
+            price,
+            image,
+            description,
+          }),
+        }
+      );
       setName('');
       setCategory('');
       setPrice(0);
