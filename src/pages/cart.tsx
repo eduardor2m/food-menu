@@ -41,7 +41,7 @@ const Cart: NextPage = () => {
   }
 
   async function cartRequestWhatsapp() {
-    const url = `https://api.whatsapp.com/send?phone=5582998394523&text=Olá,%20tenho%20interesse%20no%20produtos%3A${cart.map(
+    const url = `https://api.whatsapp.com/send?phone=5582982017899&text=Olá,%20tenho%20interesse%20no%20produtos%3A${cart.map(
       (item) => `%20${item.name}`
     )}.%20Quantidade:${cart.map(
       (item) => `%20${item.quantity}`
