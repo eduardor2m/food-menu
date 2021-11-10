@@ -27,7 +27,7 @@ export default function Add() {
       await fetch(
         `${
           process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
-            ? process.env.NEXT_PUBLIC_ADRESS
+            ? `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`
             : 'http://localhost:3000/api/products'
         }`,
         {
