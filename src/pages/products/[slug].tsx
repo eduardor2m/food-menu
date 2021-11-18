@@ -149,7 +149,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
-        ? `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/product/${slug}`
+        ? `${process.env.NEXT_PUBLIC_VERCEL_URL_APP}/api/product/${slug}`
         : `http://localhost:3000/api/product/${slug}`
     }`
   );
