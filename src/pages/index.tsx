@@ -180,6 +180,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       data,
     },
+    fallback: false,
     revalidate: 60 * 60 * 24, // 24 hours
   };
 };
