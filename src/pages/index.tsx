@@ -169,20 +169,12 @@ export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
-        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`
+        ? `https://food-menu-weld.vercel.app/api/products`
         : 'http://localhost:3000/api/products'
     }`
   );
 
   const data = await res.json();
-
-  if (!data) {
-    return {
-      props: {
-        data: [],
-      },
-    };
-  }
 
   return {
     props: {
