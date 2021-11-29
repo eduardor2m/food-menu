@@ -176,6 +176,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const data = await res.json();
 
+  if (res.status !== 200) {
+    throw new Error('Failed to fetch data.');
+  }
+
   return {
     props: {
       data,
