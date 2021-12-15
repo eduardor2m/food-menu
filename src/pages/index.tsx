@@ -190,10 +190,11 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   const data = JSON.stringify(res.data);
+  const dataJson = JSON.parse(data);
 
   return {
     props: {
-      data,
+      dataJson,
     },
     revalidate: 60 * 60 * 24, // 24 hours
   };
