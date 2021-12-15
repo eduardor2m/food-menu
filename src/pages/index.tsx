@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 
+import axios from 'axios';
 import type { NextPage } from 'next';
 import { InferGetStaticPropsType, GetStaticProps } from 'next';
 import Head from 'next/head';
@@ -166,19 +167,30 @@ const Home: NextPage = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(
+  // const res = await fetch(
+  //   `${
+  //     process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+  //       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`
+  //       : 'http://localhost:3000/api/products'
+  //   }`
+  // );
+
+  const res = await axios.get(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
         ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`
         : 'http://localhost:3000/api/products'
-    }`
+    }`,
+    {
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'User-Agent': '*',
+      },
+    }
   );
 
-  const data = JSON.stringify(await res.json());
-
-  if (res.status !== 200) {
-    throw new Error('Failed to fetch data.');
-  }
+  const data = JSON.stringify(res.data);
+  console.log('res ', res);
 
   return {
     props: {
