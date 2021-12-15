@@ -33,7 +33,7 @@ const Home: NextPage = ({
   const { cart } = useCart();
 
   useEffect(() => {
-    setProducts(data);
+    setProducts(JSON.parse(data));
   }, [data]);
 
   function handleFilterNameProduct(search: string) {
@@ -191,10 +191,11 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const data = JSON.stringify(res.data);
   const dataJson = JSON.parse(data);
+  console.log(dataJson);
 
   return {
     props: {
-      dataJson,
+      data,
     },
     revalidate: 60 * 60 * 24, // 24 hours
   };

@@ -29,8 +29,9 @@ export default function Dish({
   const { cart, addToCart } = useCart();
 
   useEffect(() => {
-    setProduct(data);
-    setPrice(data.price);
+    const product = JSON.parse(data);
+    setProduct(product);
+    setPrice(product.price);
   }, [data]);
 
   useEffect(() => {
@@ -172,11 +173,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
   );
 
   const data = JSON.stringify(res.data);
-  const dataJson = JSON.parse(data);
 
   return {
     props: {
-      dataJson,
+      data,
     },
 
     revalidate: 60 * 60 * 24, // 24 hours
