@@ -154,7 +154,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }`
   );
 
-  const data = await res.json();
+  const data = JSON.stringify(await res.json());
 
   return {
     props: {
