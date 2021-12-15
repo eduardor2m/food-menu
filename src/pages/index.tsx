@@ -190,7 +190,6 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   const data = JSON.stringify(res.data);
-  console.log('res ', res);
 
   return {
     props: {
