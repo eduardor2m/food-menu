@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { IoCart } from 'react-icons/io5';
 
+import axios from 'axios';
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'next';
 
 import { CartButton } from '../../components/CartButton';
@@ -146,19 +147,36 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const params = context.params;
   const { slug }: any = params;
 
-  const res = await fetch(
+  // const res = await fetch(
+  //   `${
+  //     process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+  //       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/product/${slug}`
+  //       : `http://localhost:3000/api/product/${slug}`
+  //   }`
+  // );
+
+  // const data = JSON.stringify(await res.json());
+
+  const res = await axios.get(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
         ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/product/${slug}`
         : `http://localhost:3000/api/product/${slug}`
-    }`
+    }`,
+    {
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'User-Agent': '*',
+      },
+    }
   );
 
-  const data = JSON.stringify(await res.json());
+  const data = JSON.stringify(res.data);
+  const dataJson = JSON.parse(data);
 
   return {
     props: {
-      data,
+      dataJson,
     },
 
     revalidate: 60 * 60 * 24, // 24 hours
