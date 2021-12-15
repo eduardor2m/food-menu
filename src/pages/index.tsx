@@ -167,14 +167,6 @@ const Home: NextPage = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  // const res = await fetch(
-  //   `${
-  //     process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
-  //       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`
-  //       : 'http://localhost:3000/api/products'
-  //   }`
-  // );
-
   const res = await axios.get(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
@@ -190,8 +182,6 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   const data = JSON.stringify(res.data);
-  const dataJson = JSON.parse(data);
-  console.log(dataJson);
 
   return {
     props: {

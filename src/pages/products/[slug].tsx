@@ -148,16 +148,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const params = context.params;
   const { slug }: any = params;
 
-  // const res = await fetch(
-  //   `${
-  //     process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
-  //       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/product/${slug}`
-  //       : `http://localhost:3000/api/product/${slug}`
-  //   }`
-  // );
-
-  // const data = JSON.stringify(await res.json());
-
   const res = await axios.get(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
