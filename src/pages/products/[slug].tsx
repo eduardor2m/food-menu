@@ -151,15 +151,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   );
 
-  if (data) {
-    const paths = data.map((product: Product) => ({
-      params: { slug: product.id.toString() },
-    }));
-    return { paths, fallback: false };
+  if (!data) {
+    throw new Error('Error fetching data');
   }
 
+  const paths = await data.map((product: Product) => ({
+    params: { slug: product.id.toString() },
+  }));
+
   return {
-    paths: [],
+    paths,
     fallback: false,
   };
 };
