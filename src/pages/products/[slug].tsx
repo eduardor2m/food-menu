@@ -29,9 +29,8 @@ export default function Dish({
   const { cart, addToCart } = useCart();
 
   useEffect(() => {
-    const product = JSON.parse(data);
-    setProduct(product);
-    setPrice(product.price);
+    setProduct(data);
+    setPrice(data.price);
   }, [data]);
 
   useEffect(() => {
@@ -148,7 +147,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const params = context.params;
   const { slug }: any = params;
 
-  const res = await axios.get(
+  const { data } = await axios.get(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
         ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/product/${slug}`
@@ -161,8 +160,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       },
     }
   );
-
-  const data = JSON.stringify(res.data);
 
   return {
     props: {

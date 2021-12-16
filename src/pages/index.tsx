@@ -33,7 +33,7 @@ const Home: NextPage = ({
   const { cart } = useCart();
 
   useEffect(() => {
-    setProducts(JSON.parse(data));
+    setProducts(data);
   }, [data]);
 
   function handleFilterNameProduct(search: string) {
@@ -167,7 +167,7 @@ const Home: NextPage = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await axios.get(
+  const { data } = await axios.get(
     `${
       process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
         ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`
@@ -180,8 +180,6 @@ export const getStaticProps: GetStaticProps = async () => {
       },
     }
   );
-
-  const data = JSON.stringify(res.data);
 
   return {
     props: {
