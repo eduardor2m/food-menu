@@ -155,7 +155,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     throw new Error('Error fetching data');
   }
 
-  const res = data.json();
+  const res = data;
 
   const paths = res.map((item: Product) => ({
     params: {
