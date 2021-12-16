@@ -151,16 +151,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   );
 
-  const paths = data.map((product: Product) => ({
-    params: {
-      slug: product.id.toString(),
-    },
-  }));
+  try {
+    const paths = data.map((product: Product) => ({
+      params: {
+        id: product.id.toString(),
+      },
+    }));
 
-  return {
-    paths,
-    fallback: false,
-  };
+    return {
+      paths,
+      fallback: false,
+    };
+  } catch (error) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
