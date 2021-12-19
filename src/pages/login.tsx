@@ -14,7 +14,7 @@ export default function Login() {
     if (session) {
       router.push('/add');
     }
-  });
+  }, [session, router]);
 
   function handleSignIn() {
     signIn('github');

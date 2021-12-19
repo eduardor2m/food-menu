@@ -9,8 +9,14 @@ const q = faunadb.query;
 export default NextAuth({
   providers: [
     Providers.GitHub({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId:
+        process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+          ? process.env.GITHUB_ID
+          : process.env.GITHUB_ID_DEV,
+      clientSecret:
+        process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+          ? process.env.GITHUB_SECRET
+          : process.env.GITHUB_SECRET_DEV,
       scope: 'read:user',
     }),
   ],

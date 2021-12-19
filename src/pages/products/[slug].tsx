@@ -154,7 +154,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   try {
     const paths = data.map((product: Product) => ({
       params: {
-        id: product.id.toString(),
+        slug: product.id.toString(),
       },
     }));
 
@@ -190,7 +190,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      data,
+      data: data[0].data,
     },
 
     revalidate: 60 * 60 * 24, // 24 hours

@@ -1,23 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { GetServerSideProps } from 'next';
-import { useSession, signOut, getSession } from 'next-auth/client';
+import { signOut, getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 
 import { HeaderUser } from '../components/HeaderUser';
 import styles from '../styles/pages/Add.module.scss';
 
 export default function Add() {
-  const [session] = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!session) {
-      router.push('/login');
-    }
-  });
   const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('carne');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
   const [description, setDescription] = useState('');
@@ -55,11 +49,20 @@ export default function Add() {
     }
   }
 
+  function handlePageDelete() {
+    router.push('/delete');
+  }
+
+  async function handleSignOut() {
+    await signOut();
+    return router.push('/login');
+  }
+
   return (
     <div className={styles.container}>
       <HeaderUser
         title="Adcionar - Produtos"
-        handleOnClick={() => signOut()}
+        handleOnClick={() => handlePageDelete()}
         login={false}
       />
       <div className={styles.content}>
@@ -102,6 +105,12 @@ export default function Add() {
           onChange={(event) => setDescription(event.target.value)}
         />
         <button onClick={handleClick}>Adicionar</button>
+        <button
+          onClick={() => handleSignOut()}
+          style={{ backgroundColor: '#c72828' }}
+        >
+          Sair
+        </button>
       </div>
     </div>
   );
@@ -110,8 +119,12 @@ export default function Add() {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession({ req: context.req });
   if (!session) {
-    context.res.writeHead(302, { Location: '/login' });
-    context.res.end();
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
   }
   return { props: { session } };
 };

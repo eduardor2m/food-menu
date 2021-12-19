@@ -1,6 +1,7 @@
 import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { BiTrash } from 'react-icons/bi';
 import { HiOutlineHome } from 'react-icons/hi';
-import { MdExitToApp } from 'react-icons/md';
+// import { MdExitToApp } from 'react-icons/md';
 
 import styles from '../styles/components/HeaderFavorite.module.scss';
 
@@ -31,7 +32,7 @@ export const HeaderUser: React.FC<Props> = ({
           </button>
         ) : (
           <button onClick={handleOnClick}>
-            <MdExitToApp className={styles.icon} />
+            <BiTrash className={styles.icon} />
           </button>
         )}
       </div>
