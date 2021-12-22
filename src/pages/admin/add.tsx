@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { GetServerSideProps } from 'next';
 import { signOut, getSession } from 'next-auth/client';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { HeaderUser } from '../../components/HeaderUser';
@@ -60,6 +61,10 @@ export default function Add() {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Adicionar</title>
+        <meta name="description" content="Adicionar Produtos" />
+      </Head>
       <HeaderUser
         title="Adicionar - Produtos"
         handleOnClick={() => handlePageDelete()}
