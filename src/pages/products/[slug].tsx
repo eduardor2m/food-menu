@@ -53,7 +53,7 @@ export default function Dish({
 
   function redirectWhatsapp() {
     window.open(
-      `https://api.whatsapp.com/send?phone=5582998394523&text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20pedido!%20Nome%3A%20${product.name}%2C%20Quantidade%3A%20${quantity}%20e%20Pre%C3%A7o%3A%20${price}`
+      `https://api.whatsapp.com/send?phone=5582982017899&text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20pedido!%20Nome%3A%20${product.name}%2C%20Quantidade%3A%20${quantity}%20e%20Pre%C3%A7o%3A%20${price}`
     );
   }
 
