@@ -9,10 +9,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { CardProduct } from '../components/CardProduct';
-import { HeaderUser } from '../components/HeaderUser';
-import { Modal } from '../components/Modal';
-import styles from '../styles/pages/Favorites.module.scss';
+import { CardProduct } from '../../components/CardProduct';
+import { HeaderUser } from '../../components/HeaderUser';
+import { Modal } from '../../components/Modal';
+import styles from '../../styles/pages/Delete.module.scss';
 
 type Product = {
   ref: string;
@@ -87,7 +87,7 @@ const Delete: NextPage = ({
         <HeaderUser
           title="Deletar - Produtos"
           handleOnClick={() => signOut()}
-          login={false}
+          login={true}
         />
 
         <h2 className={styles.titleDishs}>Produtos</h2>
@@ -168,7 +168,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       data,
-      session,
     },
   };
   // ...

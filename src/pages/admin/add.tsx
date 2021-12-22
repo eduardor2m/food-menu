@@ -4,8 +4,8 @@ import { GetServerSideProps } from 'next';
 import { signOut, getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 
-import { HeaderUser } from '../components/HeaderUser';
-import styles from '../styles/pages/Add.module.scss';
+import { HeaderUser } from '../../components/HeaderUser';
+import styles from '../../styles/pages/Add.module.scss';
 
 export default function Add() {
   const router = useRouter();
@@ -50,7 +50,7 @@ export default function Add() {
   }
 
   function handlePageDelete() {
-    router.push('/delete');
+    router.push('/admin/delete');
   }
 
   async function handleSignOut() {
