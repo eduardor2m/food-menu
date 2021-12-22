@@ -1,6 +1,8 @@
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
 
+import { useRouter } from 'next/router';
+
 import styles from '../styles/components/HeaderProduct.module.scss';
 
 interface Props {
@@ -9,8 +11,9 @@ interface Props {
 }
 
 export const HeaderProduct: React.FC<Props> = ({ category, handleOnClick }) => {
+  const router = useRouter();
   function handleBack() {
-    window.history.back();
+    router.back();
   }
   return (
     <div className={styles.container}>
