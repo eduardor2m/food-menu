@@ -61,7 +61,7 @@ export default function Add() {
   return (
     <div className={styles.container}>
       <HeaderUser
-        title="Adcionar - Produtos"
+        title="Adicionar - Produtos"
         handleOnClick={() => handlePageDelete()}
         login={false}
       />

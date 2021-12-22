@@ -57,17 +57,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json(data);
   }
-
-  if (req.method === 'DELETE') {
-    const { id } = req.query;
-    await fauna
-      .query(q.Delete(q.Ref(q.Collection('products'), id)))
-      .then((response: any) => {
-        return response;
-      })
-      .catch((error: any) => {
-        console.error(error);
-        return error;
-      });
-  }
 };

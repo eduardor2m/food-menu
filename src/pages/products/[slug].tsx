@@ -4,6 +4,7 @@ import { IoCart } from 'react-icons/io5';
 
 import axios from 'axios';
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'next';
+import Head from 'next/head';
 
 import { CartButton } from '../../components/CartButton';
 import { HeaderProduct } from '../../components/HeaderProduct';
@@ -79,6 +80,10 @@ export default function Dish({
 
   return (
     <div>
+      <Head>
+        <title>{product.name}</title>
+        <meta name="description" content={product.description} />
+      </Head>
       {cart.length > 0 ? <CartButton count={cart.length} /> : null}
       <HeaderProduct
         category={product.category}

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 
 import { useSession, signIn } from 'next-auth/client';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import styles from '../styles/pages/Login.module.scss';
@@ -25,6 +26,10 @@ export default function Login() {
   }
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Login</title>
+        <meta name="description" content="Entrar no menu admin" />
+      </Head>
       <div className={styles.header}>
         <img
           src="assets/logo.svg"
