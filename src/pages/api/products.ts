@@ -8,6 +8,7 @@ const q = faunadb.query;
 type Product = {
   data: [
     {
+      ref: any;
       data: {
         id: string;
         category: string;
@@ -28,8 +29,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         Lambda('productsRef', q.Get(q.Var('productsRef')))
       )
     );
+
     const products = data.map((product) => {
       return {
+        ref: product.ref.id,
         id: product.data.id,
         category: product.data.category,
         name: product.data.name,
@@ -53,5 +56,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     );
 
     res.status(200).json(data);
+  }
+
+  if (req.method === 'DELETE') {
+    const { id } = req.query;
+    await fauna
+      .query(q.Delete(q.Ref(q.Collection('products'), id)))
+      .then((response: any) => {
+        return response;
+      })
+      .catch((error: any) => {
+        console.error(error);
+        return error;
+      });
   }
 };

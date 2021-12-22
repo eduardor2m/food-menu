@@ -137,10 +137,37 @@ export default function Dish({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
+  const { data } = await axios.get(
+    `${
+      process.env.NEXT_PUBLIC_DEVELOPMENT === 'true'
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`
+        : 'http://localhost:3000/api/products'
+    }`,
+    {
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'User-Agent': '*',
+      },
+    }
+  );
+
+  try {
+    const paths = data.map((product: Product) => ({
+      params: {
+        slug: product.id.toString(),
+      },
+    }));
+
+    return {
+      paths,
+      fallback: false,
+    };
+  } catch (error) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -163,7 +190,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      data,
+      data: data[0].data,
     },
 
     revalidate: 60 * 60 * 24, // 24 hours
